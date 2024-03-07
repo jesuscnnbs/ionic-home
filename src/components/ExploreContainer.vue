@@ -1,14 +1,25 @@
 <template>
   <div id="container">
     <strong>{{ name }}</strong>
-    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-button @click="handleSignOut()">Sign Out</ion-button>
   </div>
 </template>
-
 <script setup lang="ts">
+import { IonButton } from '@ionic/vue';
+import { useAuthStore } from "../store/useAuthStore";
+import { useFirebaseAuth } from "vuefire";
+const auth = useFirebaseAuth();
+const authStore = useAuthStore();
+
+const handleSignOut = () => {
+  authStore.signOut(auth);
+}
+
 defineProps({
   name: String,
 });
+
+
 </script>
 
 <style scoped>

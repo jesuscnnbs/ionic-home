@@ -29,12 +29,24 @@ import "./theme/variables.css";
 import { VueFire, VueFireAuth } from "vuefire";
 import { firebaseApp } from "./firebase";
 
+/**
+ * Pinia State manager
+ */
+import { markRaw } from 'vue'
+import { createPinia } from 'pinia'
+
+const pinia = createPinia()
+pinia.use(({store}) => {
+  store.$router = markRaw(router)
+})
+
 const app = createApp(App)
   .use(IonicVue)
   .use(VueFire, {
     firebaseApp,
     modules: [VueFireAuth()],
   })
+  .use(pinia)
   .use(router);
 
 router.isReady().then(() => {
