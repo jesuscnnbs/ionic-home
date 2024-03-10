@@ -58,11 +58,12 @@ const setOpen = (state: boolean) => {
 };
 
 
-watch(user, (newUser) => {
-  if (newUser?.uid) {
-    authStore.setUser(newUser);
-  }
-})
+// watch(user, (newUser) => {
+//   console.log('Watch Login', newUser)
+//   if (newUser?.uid) {
+//     authStore.setUser(newUser);
+//   }
+// })
 
 
 onMounted(() => {
