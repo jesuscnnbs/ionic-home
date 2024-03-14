@@ -6,15 +6,32 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Casas</ion-title>
-        </ion-toolbar>
-      </ion-header>
+      <ul>
+        <li v-for="home in homesStore.homesData" :key="home.id">
+          <span>{{ home.name }}</span>
+        </li>
+      </ul>
+      <AddHomeComponent />
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+} from "@ionic/vue";
+import AddHomeComponent from '@/components/AddHomeComponent.vue'
+
+import { useHomesStore } from "@/store/useHomesStore";
+import { onMounted } from "vue";
+
+const homesStore = useHomesStore();
+onMounted(() => {
+  homesStore.getHomes();
+})
+
 </script>

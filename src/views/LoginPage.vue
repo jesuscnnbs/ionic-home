@@ -24,19 +24,15 @@ import {
   IonPage,
   IonButton,
 } from "@ionic/vue";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import {
   signInWithRedirect,
   getRedirectResult,
 } from "firebase/auth";
-import { useFirebaseAuth, useCurrentUser } from "vuefire";
-import { useAuthStore } from "../store/useAuthStore";
+import { useFirebaseAuth } from "vuefire";
 import { googleAuthProvider } from "@/firebase";
 
 const auth = useFirebaseAuth();
-const user = useCurrentUser();
-
-const authStore = useAuthStore();
 // display errors if any
 const error = ref(null);
 
@@ -56,14 +52,6 @@ const handleSignIn = () => {
 const setOpen = (state: boolean) => {
   isOpen.value = state;
 };
-
-
-// watch(user, (newUser) => {
-//   console.log('Watch Login', newUser)
-//   if (newUser?.uid) {
-//     authStore.setUser(newUser);
-//   }
-// })
 
 
 onMounted(() => {
