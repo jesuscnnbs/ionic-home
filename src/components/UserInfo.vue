@@ -2,15 +2,15 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-avatar>
-          <img alt="image profile" :src="authStore.userData?.photoUrl"/>
+        <ion-avatar v-if="user">
+          <img alt="image profile" :src="user.photoURL || undefined"/>
         </ion-avatar>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <ion-text>
-          <h3>{{ authStore.userData?.name }}</h3>
+          <h3>{{ user?.displayName }}</h3>
         </ion-text>
       </ion-col>
     </ion-row>
@@ -23,10 +23,10 @@
 </template>
 <script setup lang="ts">
 import { IonGrid, IonRow, IonCol, IonAvatar, IonText } from '@ionic/vue';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useCurrentUser } from 'vuefire';
 import SignOutButton from '@/components/SignOutButton.vue'
 
-const authStore = useAuthStore();
+const user = useCurrentUser();
 
 </script>
 <style scoped>

@@ -2,14 +2,23 @@
   <ion-button @click="handleSignOut()">Cerrar Sesión</ion-button>
 </template>
 <script setup lang="ts">
-import { IonButton } from '@ionic/vue';
-import { useAuthStore } from "../store/useAuthStore";
+import { signOut } from "firebase/auth";
 import { useFirebaseAuth } from "vuefire";
+import { IonButton } from '@ionic/vue';
+import router from "@/router";
+
 const auth = useFirebaseAuth();
-const authStore = useAuthStore();
 
 const handleSignOut = () => {
-  authStore.signOut(auth);
+  if (auth) {
+        signOut(auth)
+          .then(() => {
+            router.push({ path: "/login" });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
 }
 
 </script>

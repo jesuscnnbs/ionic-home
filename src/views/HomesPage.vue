@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <ul>
-        <li v-for="home in homesStore.homesData" :key="home.id">
+        <li v-for="home in homes" :key="home.id">
           <span>{{ home.name }}</span>
         </li>
       </ul>
@@ -24,14 +24,15 @@ import {
   IonTitle,
   IonContent,
 } from "@ionic/vue";
-import AddHomeComponent from '@/components/AddHomeComponent.vue'
+import { onMounted, ref } from "vue";
+import { getHomesOnce } from "@/firebase/homes";
+import { useCurrentUser } from "vuefire";
+import AddHomeComponent from "@/components/AddHomeComponent.vue";
 
-import { useHomesStore } from "@/store/useHomesStore";
-import { onMounted } from "vue";
+const user = useCurrentUser();
+const homes = ref();
 
-const homesStore = useHomesStore();
 onMounted(() => {
-  homesStore.getHomes();
-})
-
+  if (user.value) homes.value = getHomesOnce(user.value?.uid);
+});
 </script>

@@ -5,16 +5,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch } from "vue";
+import { watch } from "vue";
 import { IonApp, IonRouterOutlet } from "@ionic/vue";
 import { useCurrentUser } from "vuefire";
 import { useRouter, useRoute } from "vue-router";
-import { useAuthStore } from "./store/useAuthStore";
 
 const user = useCurrentUser();
 const router = useRouter();
 const route = useRoute();
-const authStore = useAuthStore();
 
 watch(user, async (currentUser, previousUser) => {
   // redirect to login if they logout and the current
@@ -23,20 +21,13 @@ watch(user, async (currentUser, previousUser) => {
   if (!currentUser && previousUser) {
     return router.push({ path: "/login" });
   }
-  // set user in pinia if authenticated now and not before
-  if (currentUser && !previousUser) {
-    authStore.setUser(currentUser);
-  }
 
   // redirect the user if they are logged in but were
   // rejected because the user wasn't ready yet, logged in
   // then got back to this page
-  if (currentUser && typeof route.query.redirect === "string") {
-    return router.push(route.query.redirect);
+  console.log(currentUser, previousUser, route)
+  if (currentUser && router.currentRoute.value.fullPath === "/login") {
+    return router.push({ path: "/tabs" });
   }
-});
-
-onMounted(() => {
-  if (user.value) authStore.setUser(user.value);
 });
 </script>

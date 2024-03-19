@@ -41,12 +41,12 @@ import {
 } from "@ionic/vue";
 import { add } from "ionicons/icons";
 import { ref } from "vue";
-import { useHomesStore } from "../store/useHomesStore";
-
-const homesStore = useHomesStore();
+import { useCurrentUser } from "vuefire";
+import { createHome } from '@/firebase/homes';
 
 const homeModal = ref();
 const homeName = ref();
+const user = useCurrentUser();
 
 const cancel = () => {
   homeModal.value.$el.dismiss(null, 'cancel');
@@ -59,6 +59,7 @@ const confirm = () => {
 }
 
 const handleCreateHome = (name: string) => {
-  homesStore.createHome(name);
+  if(user.value) return createHome(name, user.value.uid)
+  console.log('No current user value')
 }
 </script>
